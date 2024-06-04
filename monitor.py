@@ -41,7 +41,7 @@ def get_uptime():
     uptime_string = format_uptime(int(uptime_seconds))
     return uptime_string
 
-def get_network_latency(host='speedtest.tele2.net'):
+def get_network_latency(host='google.es'):
     try:
         output = subprocess.check_output(["ping", "-c", "1", host], timeout=2)
         latency = float(output.decode().split('time=')[1].split(' ms')[0])

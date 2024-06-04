@@ -66,6 +66,7 @@
         function restartPi() {
             if (confirm("Desea reiniciar Pi?") == true) {
                 $.post('/restart', function(data) {
+                    console.log(data);
                     alert('Reiniciando Raspberry Pi');
                 });
             }
@@ -73,6 +74,9 @@
 
         $(document).ready(function() {
             fetchData();
+            $("#restartButton").click(function(){
+                restartPi();
+            });
         });
     </script>
 </head>

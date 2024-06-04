@@ -67,7 +67,7 @@ def get_status():
     total_ram, available_ram, ram_usage_percent = get_ram_usage()
     swap_total, swap_used = get_swap_usage()
     uptime = get_uptime()
-    latency = get_network_latency('speedtest.tele2.net')  # Servidor en Madrid
+    latency = get_network_latency('google.es')  # Servidor en Madrid
     usb1_total, usb1_used = get_disk_usage('/mnt/usb1/')
     usb2_total, usb2_used = get_disk_usage('/mnt/usb2/')
     mmcblk0p2_total, mmcblk0p2_used = get_disk_usage('/')

@@ -1,7 +1,7 @@
 # Raspberry Pi Monitor
 
 ## Project Overview
-This project is a web-based monitoring tool for Raspberry Pi, providing real-time information on system metrics such as CPU usage, memory usage, disk usage, temperature, uptime, and network latency. The web interface also allows the user to restart the Raspberry Pi with a simple button click.
+This project is a very simple and lite web-based monitoring tool for Raspberry Pi, providing real-time information on system metrics such as CPU usage, memory usage, disk usage, temperature, uptime, and network latency. The web interface also allows the user to restart the Raspberry Pi with a simple button click.
 
 ![Descripción de la imagen](screenshot/screenshot.png)
 

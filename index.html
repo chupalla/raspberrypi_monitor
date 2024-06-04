@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspberry Pi Monitor</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        p {
+            margin: 10px 0;
+        }
+        .notification {
+            margin-top: 20px;
+            color: green;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function fetchData() {
+            $.getJSON('/status')
+                .done(function(data) {
+                    $('#temperature').text(data.temperature + ' °C');
+                    $('#cpu_usage').text(data.cpu_usage + ' %');
+                    $('#total_ram').text(data.total_ram.toFixed(2) + ' GB');
+                    $('#available_ram').text(data.available_ram.toFixed(2) + ' GB');
+                    $('#ram_usage_percent').text(data.ram_usage_percent + ' %');
+                    $('#swap_usage').text(data.swap_used.toFixed(2) + ' GB / ' + data.swap_total.toFixed(2) + ' GB');
+                    $('#uptime').text(data.uptime);
+                    $('#latency').text(data.latency ? data.latency.toFixed(2) + ' ms' : 'N/A');
+                    $('#usb1_usage').text(data.usb1_used.toFixed(2) + ' GB / ' + data.usb1_total.toFixed(2) + ' GB');
+                    $('#usb2_usage').text(data.usb2_used.toFixed(2) + ' GB / ' + data.usb2_total.toFixed(2) + ' GB');
+                    $('#mmcblk0p2_usage').text(data.mmcblk0p2_used.toFixed(2) + ' GB / ' + data.mmcblk0p2_total.toFixed(2) + ' GB');
+                    $('#notification').text('Información actualizada');
+                    setTimeout(function() {
+                        $('#notification').text('');
+                    }, 2000); // La notificación desaparece después de 2 segundos
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error en la solicitud: ", textStatus, errorThrown);
+                })
+                .always(function() {
+                    setTimeout(function() {
+                        fetchData();
+                    }, 3000);
+                });
+        }
+
+        function restartPi() {
+            if (confirm("Desea reiniciar Pi?") == true) {
+                $.post('/restart', function(data) {
+                    alert('Reiniciando Raspberry Pi');
+                });
+            }
+        }
+
+        $(document).ready(function() {
+            fetchData();
+        });
+    </script>
+</head>
+<body>
+    <h1>Raspberry Pi Monitor</h1>
+    <p>Temperature: <span id="temperature">Loading...</span></p>
+    <p>CPU Usage: <span id="cpu_usage">Loading...</span></p>
+    <p>Total RAM: <span id="total_ram">Loading...</span></p>
+    <p>Available RAM: <span id="available_ram">Loading...</span></p>
+    <p>RAM Usage: <span id="ram_usage_percent">Loading...</span></p>
+    <p>Swap Usage: <span id="swap_usage">Loading...</span></p>
+    <p>Uptime: <span id="uptime">Loading...</span></p>
+    <p>Network Latency: <span id="latency">Loading...</span></p>
+    <p>USB1 Usage: <span id="usb1_usage">Loading...</span></p>
+    <p>USB2 Usage: <span id="usb2_usage">Loading...</span></p>
+    <p>Micro SD Disk Usage: <span id="mmcblk0p2_usage">Loading...</span></p>
+    <button id="restartButton">Reiniciar Raspberry Pi</button>
+    <p class="notification" id="notification"></p>
+</body>
+</html>
